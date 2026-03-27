@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>タロット占い</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ヘッダー -->
+<header class="site-header">
+  <p class="logo">T A R O T</p>
+  <div class="logo-divider"></div>
+</header>
+
+<!-- ============================================================
+     SCREEN 1: ウェルカム
+     ============================================================ -->
+<div id="screen-welcome" class="screen active">
+  <div class="wrap">
+    <div class="welcome-symbol">✦</div>
+
+    <h1 class="section-title" style="text-align:center;">今日のカード</h1>
+    <p class="welcome-lead">
+      78枚のカードが、今シャッフルされました。<br>
+      位置はもう決まっています。<br>
+      あとはあなたが、選ぶだけ。
+    </p>
+
+    <!-- カテゴリ -->
+    <span class="category-label">今日のテーマ</span>
+    <div class="category-grid">
+      <input type="radio" id="cat-love"     name="category" value="恋愛">
+      <label for="cat-love">恋愛</label>
+      <input type="radio" id="cat-work"     name="category" value="仕事">
+      <label for="cat-work">仕事</label>
+      <input type="radio" id="cat-people"   name="category" value="人間関係">
+      <label for="cat-people">人間関係</label>
+      <input type="radio" id="cat-self"     name="category" value="自分自身">
+      <label for="cat-self">自分自身</label>
+      <input type="radio" id="cat-other"    name="category" value="その他" checked>
+      <label for="cat-other">その他</label>
+    </div>
+
+    <!-- 相談内容 -->
+    <div class="input-wrap">
+      <label for="concern-input">タロットに聞きたいことを書いてください <span class="q-optional">（任意）</span></label>
+      <textarea id="concern-input" placeholder="例：仕事のことで迷っています&#10;　  あの人との関係はどこへ向かうのか&#10;　  今の自分に必要なことは何？" rows="4"></textarea>
+    </div>
+
+    <button id="btn-start" class="btn-primary">カードを引く</button>
+  </div>
+</div>
+
+<!-- ============================================================
+     SCREEN 2: カード選択
+     ============================================================ -->
+<div id="screen-select" class="screen">
+  <div class="wrap">
+    <h2 class="section-title">カードを選んでください</h2>
+    <p class="section-sub">78枚の中から、ぴんときた1枚を。</p>
+
+    <p class="select-lead">
+      カードに手を当てるように、<br>
+      番号を選んでください。
+    </p>
+
+    <div id="card-grid"></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SCREEN 3: カード開封
+     ============================================================ -->
+<div id="screen-reveal" class="screen">
+  <div class="wrap">
+    <h2 class="section-title">カードが開きます</h2>
+    <p class="section-sub">あなたが選んだカード</p>
+
+    <div class="card-flip-wrap">
+      <div id="card-flip">
+        <!-- 裏面 -->
+        <div class="card-back-face"></div>
+        <!-- 表面 -->
+        <div id="card-face" class="card-face">
+          <img id="card-img" class="card-img" src="" alt="">
+          <div class="card-face-overlay">
+            <p class="card-face-name" id="reveal-name-ja"></p>
+            <span class="card-face-orient" id="reveal-orient"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal-info" id="reveal-info" style="display:none;">
+      <!-- app.jsでは使わないが余白調整用 -->
+    </div>
+
+    <button id="btn-to-impression" class="btn-primary">このカードを読む</button>
+  </div>
+</div>
+
+<!-- ============================================================
+     SCREEN 4: 印象ヒアリング
+     ============================================================ -->
+<div id="screen-impression" class="screen">
+  <div class="wrap">
+    <h2 class="section-title">カードの印象を教えてください</h2>
+    <p class="section-sub">正解はありません。最初に感じたことで。</p>
+
+    <div id="impression-questions"></div>
+
+    <button id="btn-to-reading" class="btn-primary" disabled>リーディングを見る</button>
+  </div>
+</div>
+
+<!-- ============================================================
+     SCREEN 5: リーディング結果
+     ============================================================ -->
+<div id="screen-reading" class="screen">
+  <div class="wrap">
+    <h2 class="section-title">今日のメッセージ</h2>
+    <p class="section-sub">カードからあなたへ</p>
+
+    <!-- カード画像 + 情報 -->
+    <div class="result-card-info">
+      <div class="result-card-img-wrap">
+        <img id="result-card-img" class="result-card-img" src="" alt="">
+      </div>
+      <p class="result-card-name"    id="result-card-name"></p>
+      <p class="result-card-en"      id="result-card-en"></p>
+      <p class="result-card-element" id="result-card-element"></p>
+      <span class="result-keyword"   id="result-keyword"></span>
+    </div>
+
+    <!-- 相談内容 -->
+    <div class="concern-badge">
+      <p class="label">今日のご相談</p>
+      <p id="result-concern"></p>
+    </div>
+
+    <!-- フリーテキスト -->
+    <div id="result-free-wrap" class="free-text-box" style="display:none;">
+      <p class="label">あなたが感じたこと</p>
+      <p id="result-free"></p>
+    </div>
+
+    <!-- リーディング本文 -->
+    <div class="reading-box">
+      <p class="reading-box-title">✦ R E A D I N G ✦</p>
+      <div id="reading-text"></div>
+    </div>
+
+    <p class="closing-line">カードのメッセージは、あなたの中にある答えを映しています</p>
+
+    <button id="btn-restart" class="btn-secondary">もう一枚引く</button>
+  </div>
+</div>
+
+<!-- フッター -->
+<footer class="footer">
+  <p>TAROT ── personal reading</p>
+</footer>
+
+<script src="js/cards.js"></script>
+<script src="js/color_psych.js"></script>
+<script src="js/reading.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
